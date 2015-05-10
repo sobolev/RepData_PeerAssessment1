@@ -34,7 +34,7 @@ print(xt.totsteps,type="html",include.rownames=FALSE)
 A histogram of the total number of steps taken per day is then plotted with the base package.
 
 ```{r, echo=TRUE}
-hist(totsteps$Total_Steps,col="navyblue",main="Total Number of Steps per Day",xlab="")
+hist(totsteps$Total_Steps,col="navyblue",breaks="FD",main="Total Number of Steps per Day",xlab="")
 ```
 
 The mean and median of the total steps per day are then calculated and then transformed into an xtable object.
@@ -83,7 +83,7 @@ The number of missing values is after imputation is `r missing.values.after`.  W
 
 ```{r, echo=TRUE}
 imp.totsteps<-imp.data[,.(Total_Steps=sum(steps)),by=(Day=as.character(date))]
-hist(imp.totsteps$Total_Steps,col="navyblue",main="Total Number of Steps per Day of Imputed Data",xlab="")
+hist(imp.totsteps$Total_Steps,col="navyblue",breaks="FD",main="Total Number of Steps per Day of Imputed Data",xlab="")
 ```
 
 Next calculate the mean and median of imputed data.

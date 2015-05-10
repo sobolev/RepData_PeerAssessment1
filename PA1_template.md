@@ -41,7 +41,7 @@ print(xt.totsteps,type="html",include.rownames=FALSE)
 ```
 
 <!-- html table generated in R 3.1.3 by xtable 1.7-4 package -->
-<!-- Sun May 10 09:32:10 2015 -->
+<!-- Sun May 10 10:29:33 2015 -->
 <table border=1>
 <tr> <th> Day </th> <th> Total_Steps </th>  </tr>
   <tr> <td> 2012-10-02 </td> <td align="right"> 126 </td> </tr>
@@ -103,7 +103,7 @@ A histogram of the total number of steps taken per day is then plotted with the 
 
 
 ```r
-hist(totsteps$Total_Steps,col="navyblue",main="Total Number of Steps per Day",xlab="")
+hist(totsteps$Total_Steps,col="navyblue",breaks="FD",main="Total Number of Steps per Day",xlab="")
 ```
 
 ![](PA1_template_files/figure-html/unnamed-chunk-3-1.png) 
@@ -119,7 +119,7 @@ print(xt.totsteps.central,type="html",include.rownames=FALSE)
 ```
 
 <!-- html table generated in R 3.1.3 by xtable 1.7-4 package -->
-<!-- Sun May 10 09:32:10 2015 -->
+<!-- Sun May 10 10:29:33 2015 -->
 <table border=1>
 <tr> <th> Mean </th> <th> Median </th>  </tr>
   <tr> <td align="right"> 10766.00 </td> <td align="right"> 10765.00 </td> </tr>
@@ -169,7 +169,7 @@ The number of missing values is after imputation is 0.  We calculate the new sum
 
 ```r
 imp.totsteps<-imp.data[,.(Total_Steps=sum(steps)),by=(Day=as.character(date))]
-hist(imp.totsteps$Total_Steps,col="navyblue",main="Total Number of Steps per Day of Imputed Data",xlab="")
+hist(imp.totsteps$Total_Steps,col="navyblue",breaks="FD",main="Total Number of Steps per Day of Imputed Data",xlab="")
 ```
 
 ![](PA1_template_files/figure-html/unnamed-chunk-9-1.png) 
@@ -185,7 +185,7 @@ print(xt.imp.totsteps.central,type="html",include.rownames=FALSE)
 ```
 
 <!-- html table generated in R 3.1.3 by xtable 1.7-4 package -->
-<!-- Sun May 10 09:32:10 2015 -->
+<!-- Sun May 10 10:29:33 2015 -->
 <table border=1>
 <tr> <th> Mean </th> <th> Median </th>  </tr>
   <tr> <td align="right"> 10766.00 </td> <td align="right"> 10762.00 </td> </tr>
