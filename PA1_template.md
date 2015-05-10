@@ -4,17 +4,17 @@ Saturday, May 09, 2015
 
 ## Loading And Preprocessing The Data
 
-We will load the dataset activity.csv using the readr package from the forked repository after manually extracting from zip file.  The date column will be imported as a character field and then converted to POSIXct format using the lubridate package. The We will also convert the data into a data table using the data.table package.
+We will load the dataset activity.csv using the readr package from the forked repository after manually extracting from zip file. The date column will be imported as a character field and then converted to POSIXct format using the lubridate package. The interval is converted into it's decimal equivalent by first padding the interval field with zeros, then extracting the hours and minutes separately and adding the two back together after dividing the minutes by $60$. We will also convert the data into a data table using the data.table package.
 
 
 ```r
-library(readr)
+library(readr,quietly=TRUE)
 data<-read_csv("activity.csv",col_types="ici")
-library(lubridate)
+library(lubridate,quietly=TRUE)
 data$date<-mdy(data$date)
 data$interval<-formatC(data$interval,width=4,format="d",flag="0")
 data$interval<-as.integer(substr(data$interval,1,2))+as.integer(substr(data$interval,3,4))/60
-library(data.table)
+library(data.table,quietly=TRUE)
 ```
 
 ```
@@ -45,7 +45,7 @@ print(xt.totsteps,type="html",include.rownames=FALSE)
 ```
 
 <!-- html table generated in R 3.1.3 by xtable 1.7-4 package -->
-<!-- Sun May 10 18:06:00 2015 -->
+<!-- Sun May 10 18:13:25 2015 -->
 <table border=1>
 <tr> <th> Day </th> <th> Total_Steps </th>  </tr>
   <tr> <td> 2012-10-02 </td> <td align="right"> 126 </td> </tr>
@@ -123,7 +123,7 @@ print(xt.totsteps.central,type="html",include.rownames=FALSE)
 ```
 
 <!-- html table generated in R 3.1.3 by xtable 1.7-4 package -->
-<!-- Sun May 10 18:06:00 2015 -->
+<!-- Sun May 10 18:13:25 2015 -->
 <table border=1>
 <tr> <th> Mean </th> <th> Median </th>  </tr>
   <tr> <td align="right"> 10766.00 </td> <td align="right"> 10765.00 </td> </tr>
@@ -189,7 +189,7 @@ print(xt.imp.totsteps.central,type="html",include.rownames=FALSE)
 ```
 
 <!-- html table generated in R 3.1.3 by xtable 1.7-4 package -->
-<!-- Sun May 10 18:06:00 2015 -->
+<!-- Sun May 10 18:13:25 2015 -->
 <table border=1>
 <tr> <th> Mean </th> <th> Median </th>  </tr>
   <tr> <td align="right"> 10766.00 </td> <td align="right"> 10762.00 </td> </tr>

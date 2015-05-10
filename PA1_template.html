@@ -69,14 +69,14 @@ img {
 
 <div id="loading-and-preprocessing-the-data" class="section level2">
 <h2>Loading And Preprocessing The Data</h2>
-<p>We will load the dataset activity.csv using the readr package from the forked repository after manually extracting from zip file. The date column will be imported as a character field and then converted to POSIXct format using the lubridate package. The We will also convert the data into a data table using the data.table package.</p>
-<pre class="r"><code>library(readr)
+<p>We will load the dataset activity.csv using the readr package from the forked repository after manually extracting from zip file. The date column will be imported as a character field and then converted to POSIXct format using the lubridate package. The interval is converted into it’s decimal equivalent by first padding the interval field with zeros, then extracting the hours and minutes separately and adding the two back together after dividing the minutes by <span class="math">\(60\)</span>. We will also convert the data into a data table using the data.table package.</p>
+<pre class="r"><code>library(readr,quietly=TRUE)
 data&lt;-read_csv(&quot;activity.csv&quot;,col_types=&quot;ici&quot;)
-library(lubridate)
+library(lubridate,quietly=TRUE)
 data$date&lt;-mdy(data$date)
 data$interval&lt;-formatC(data$interval,width=4,format=&quot;d&quot;,flag=&quot;0&quot;)
 data$interval&lt;-as.integer(substr(data$interval,1,2))+as.integer(substr(data$interval,3,4))/60
-library(data.table)</code></pre>
+library(data.table,quietly=TRUE)</code></pre>
 <pre><code>## 
 ## Attaching package: 'data.table'
 ## 
@@ -93,7 +93,7 @@ totsteps&lt;-data[!is.na(steps),.(Total_Steps=sum(steps)),by=(Day=as.character(d
 xt.totsteps&lt;-xtable(totsteps)
 print(xt.totsteps,type=&quot;html&quot;,include.rownames=FALSE)</code></pre>
 <!-- html table generated in R 3.1.3 by xtable 1.7-4 package -->
-<!-- Sun May 10 18:06:00 2015 -->
+<!-- Sun May 10 18:13:25 2015 -->
 <table border="1">
 <tr>
 <th>
@@ -537,7 +537,7 @@ setnames(totsteps.central,c(&quot;V1&quot;,&quot;V2&quot;),c(&quot;Mean&quot;,&q
 xt.totsteps.central&lt;-xtable(totsteps.central)
 print(xt.totsteps.central,type=&quot;html&quot;,include.rownames=FALSE)</code></pre>
 <!-- html table generated in R 3.1.3 by xtable 1.7-4 package -->
-<!-- Sun May 10 18:06:00 2015 -->
+<!-- Sun May 10 18:13:25 2015 -->
 <table border="1">
 <tr>
 <th>
@@ -585,7 +585,7 @@ setnames(imp.totsteps.central,c(&quot;V1&quot;,&quot;V2&quot;),c(&quot;Mean&quot
 xt.imp.totsteps.central&lt;-xtable(imp.totsteps.central)
 print(xt.imp.totsteps.central,type=&quot;html&quot;,include.rownames=FALSE)</code></pre>
 <!-- html table generated in R 3.1.3 by xtable 1.7-4 package -->
-<!-- Sun May 10 18:06:00 2015 -->
+<!-- Sun May 10 18:13:25 2015 -->
 <table border="1">
 <tr>
 <th>

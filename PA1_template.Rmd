@@ -9,16 +9,16 @@ output:
 
 ## Loading And Preprocessing The Data
 
-We will load the dataset activity.csv using the readr package from the forked repository after manually extracting from zip file.  The date column will be imported as a character field and then converted to POSIXct format using the lubridate package. The We will also convert the data into a data table using the data.table package.
+We will load the dataset activity.csv using the readr package from the forked repository after manually extracting from zip file. The date column will be imported as a character field and then converted to POSIXct format using the lubridate package. The interval is converted into it's decimal equivalent by first padding the interval field with zeros, then extracting the hours and minutes separately and adding the two back together after dividing the minutes by $60$. We will also convert the data into a data table using the data.table package.
 
 ```{r, echo=TRUE}
-library(readr)
+library(readr,quietly=TRUE)
 data<-read_csv("activity.csv",col_types="ici")
-library(lubridate)
+library(lubridate,quietly=TRUE)
 data$date<-mdy(data$date)
 data$interval<-formatC(data$interval,width=4,format="d",flag="0")
 data$interval<-as.integer(substr(data$interval,1,2))+as.integer(substr(data$interval,3,4))/60
-library(data.table)
+library(data.table,quietly=TRUE)
 data<-data.table(data)
 ```
 
