@@ -9,16 +9,20 @@ output:
 
 ## Loading And Preprocessing The Data
 
-We will load the dataset activity.csv using the readr package from the forked repository after manually extracting from zip file.  The date column will be imported as a character field and then converted to POSIXct format using the lubridate package.  We will also convert the data into a data table using the data.table package.
+We will load the dataset activity.csv using the readr package from the forked repository after manually extracting from zip file.  The date column will be imported as a character field and then converted to POSIXct format using the lubridate package. The We will also convert the data into a data table using the data.table package.
 
 ```{r, echo=TRUE}
 library(readr)
 data<-read_csv("activity.csv",col_types="ici")
 library(lubridate)
 data$date<-mdy(data$date)
+data$interval<-formatC(data$interval,width=4,format="d",flag="0")
+data$interval<-as.integer(substr(data$interval,1,2))+as.integer(substr(data$interval,3,4))/60
 library(data.table)
 data<-data.table(data)
 ```
+
+
 
 ## What Is Mean Total Number Of Steps Taken Per Day?
 
@@ -52,7 +56,7 @@ We will use the data.table methods to calculate average steps per $5$ minute int
 
 ```{r, echo=TRUE}
 avgsteps<-data[!is.na(steps),.(Average_Steps=mean(steps)),by=interval]
-plot(avgsteps$interval,avgsteps$Average_Steps,type="l",main="Average Steps per 5 Minute Interval",xlab="5 Minute Interval",ylab="Average Steps")
+plot(avgsteps$interval,avgsteps$Average_Steps,type="l",main="Average Steps per 5 Minute Interval",xlab="24 Hours - 5 Minute Interval",ylab="Average Steps")
 ```
 
 
@@ -104,7 +108,7 @@ prior.median<-format(totsteps.central$Median,scientific=FALSE)
 imp.median<-format(imp.totsteps.central$Median,scientific=FALSE)
 ```
 
-From the table we see that the mean has stayed the same at `r prior.mean`, while the median has gone from `r prior.median` to `r imp.median`.  The impact on the calculation of total daily steps is that it has shifted the median of the data set down a very small amount.  This makes sense since the mean was slightly less than the median and we imputed with the mean.  If we had chosen to use the median to impute instead then the mean would have shifted up towards the median.  I would consider this an insignificant impact at least on the central tendencies of the data.
+From the table we see that the mean has stayed the same at `r prior.mean`, while the median has gone from `r prior.median` to `r imp.median`.  The impact on the calculation of total daily steps is that it has shifted the median of the data set down a very small amount.  This makes sense since the mean was slightly more than the median and we imputed with the mean.  If we had chosen to use the median to impute instead then the mean would have shifted down towards the median.  I would consider this an insignificant impact at least on the central tendencies of the data.
 
 ## Are There Differences In Activity Patterns Between Weekdays And Weekends?
 
@@ -123,7 +127,8 @@ wkday.avgsteps<-imp.data[,.(Average_Steps=mean(steps)),by=c("interval","weekday"
 library(ggplot2)
 g<-ggplot(wkday.avgsteps,aes(x=interval,y=Average_Steps))+
     geom_line()+
-    facet_grid(weekday~.)
+    facet_grid(weekday~.)+
+    ggtitle("Average Steps at Five Minute Intervals (Weekdays vs Weekends)")
 g
 ```
 
